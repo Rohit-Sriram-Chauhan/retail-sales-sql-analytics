@@ -1,44 +1,44 @@
 /*
 ================================================================================
-SQL PORTFOLIO PROJECT: RETAIL DATA WAREHOUSE & SALES PERFORMANCE ANALYTICS
+RETAIL SALES DATA ANALYSIS
 ================================================================================
+
 Database       : DataWarehouseAnalytics
-SQL Dialect    : MySQL 8.0+
-Source tables  : dim_customers, dim_products, fact_sales
-Staging tables : stg_dim_customers, stg_dim_products, stg_fact_sales
-Reporting views: report_customers, report_products
+SQL Version    : MySQL 8.0+
+Source Tables  : dim_customers, dim_products, fact_sales
+Staging Tables : stg_dim_customers, stg_dim_products, stg_fact_sales
+Views          : report_customers, report_products
 
-PROJECT OBJECTIVE
-Explore retail sales data, audit data quality, prepare analysis-ready staging
-copies, calculate business KPIs, analyse customer/product performance, and build
-reusable reporting views for a BI dashboard.
+PROJECT OVERVIEW
+This project explores retail sales data using SQL. It includes data quality
+checks, data cleaning, sales analysis, customer and product analysis, and
+reporting views.
 
-IMPORTANT DATA RULES
-1. The imported source tables are treated as RAW and are never updated here.
-2. The script creates staging copies prefixed with stg_. Cleaning is applied only
-   to those copies.
-3. Missing order_date values are NOT reconstructed or guessed. They remain NULL
-   and are excluded only from date-dependent analysis. Their sales amounts and
-   quantities remain available to non-date-based analysis.
-4. dim_customers.create_date is not assumed to be the original signup date. Its
-   values fall outside the historical sales period, so it is not used for cohort
-   analysis without source-system documentation.
-5. fact_sales is at the sales-line grain: one row represents an order/product
-   line, not necessarily one complete order. Use COUNT(DISTINCT order_number)
-   when counting orders.
-6. Product profitability is labelled ESTIMATED because dim_products.cost is a
-   product-master cost, not proven historical transaction cost. Products with
-   cost = 0 are excluded from the estimated-margin calculation and should be
-   investigated separately.
+NOTES
+1. The original source tables are kept unchanged. All cleaning is done on
+   separate staging tables.
 
-RUNNING THIS SCRIPT
-- Import the three source tables into DataWarehouseAnalytics first.
-- Run the script in MySQL 8.0 or later.
-- The script drops/recreates only its own stg_ tables and replaces its two
-  report views. It does not update or drop the three source tables.
+2. Missing order dates are kept as NULL. These records are excluded from
+   date-based analysis but can still be used for other calculations.
+
+3. The create_date column in dim_customers is not used for cohort analysis
+   because its dates fall outside the historical sales period.
+
+4. Each row in fact_sales represents an order line (a product within an order).
+   Use COUNT(DISTINCT order_number) when counting orders.
+
+5. Product profit is an estimate based on the current product cost. Historical
+   costs are not available, so the results should be treated accordingly.
+   Products with zero cost need further checking.
+
+HOW TO RUN
+- Import the three source tables into DataWarehouseAnalytics.
+- Run this script using MySQL 8.0 or later.
+- The script recreates its own staging tables and reporting views.
+- The original source tables are not modified or deleted.
+
 ================================================================================
 */
-
 USE DataWarehouseAnalytics;
 SELECT DATABASE();
 
@@ -1237,17 +1237,13 @@ HAVING COUNT(*) > 1;
 /*
 ================================================================================
 END OF PROJECT
+================================================================================
 
-Suggested GitHub deliverables:
-- This SQL script
-- The original source CSV files (or a link to the dataset)
-- A README with business objectives, data dictionary, table grain, assumptions,
-  data-quality findings, SQL techniques used, and key business insights
-- Power BI dashboard file and screenshots, once completed
+This script covers data exploration, data quality checks, sales analysis,
+customer analysis, product analysis, and reporting views.
 
-Before publishing, execute the complete script against a fresh copy of the
-source database and verify that each section runs successfully in your MySQL
-version. Review the assumptions on product cost, order dates, and customer
-create_date before presenting profitability or cohort conclusions.
+The original source tables remain unchanged. All data cleaning and
+transformations are performed on staging tables.
+
 ================================================================================
 */
