@@ -1,11 +1,22 @@
-# Dataset files
+# Dataset Files
 
-The `source/` folder contains the three CSV extracts used by this project:
+This folder contains the three CSV files used in the Retail Sales Data Analysis project.
 
-- `dim_customers.csv`
-- `dim_products.csv`
-- `fact_sales.csv`
+### Files
 
-Import them into the `DataWarehouseAnalytics` MySQL schema using the table names above. The SQL script creates separate `stg_` copies and does not modify the imported source tables.
+- `dim_customers.csv` – Customer information
+- `dim_products.csv` – Product details
+- `fact_sales.csv` – Sales transaction records
 
-**Before publishing these CSVs publicly:** verify the original dataset source, redistribution licence, and whether customer names and birthdates are synthetic or authorised for public release. The supplied files do not include licence metadata.
+### How to Use
+
+1. Import the CSV files into your MySQL database.
+2. Create a database named `DataWarehouseAnalytics`.
+3. Import the files using the table names listed above.
+4. Run the SQL script located in the `sql/` folder.
+
+The SQL script creates separate staging tables for data cleaning and analysis. The original imported tables remain unchanged.
+
+### Dataset Source
+
+The original dataset is included in this repository and shared for educational and portfolio purposes.
